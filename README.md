@@ -66,7 +66,14 @@ This may change in the future as kelp js may need a build system.
 ## Behind the scenes
 This plugin implements the kelp compile process laid out in the [kelp build overview](https://github.com/stellar/kelp/blob/master/docs/kelp-overview.md).
 
-1. Copy the files to the
+### css()
+1. Copy the input scss to the tmp folder
+2. Create the kelp-packet in the tmp folder
+3. Create the kelp-bundle in the tmp folder
+4. Compile the kelp bundle scss files
+5. Compile the input scss files
+6. Rebuild and return as a stream
 
-## Warnings:
-Do not run m
+### js()
+1. For each specified extension, get the js folder path (if exists)
+2. return
