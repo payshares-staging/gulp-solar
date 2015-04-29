@@ -1,0 +1,19 @@
+{
+  "name": "gulp-kelp",
+  "version": "1.0.0",
+  "description": "A gulp plugin to build the kelp framework",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Iris Li <iris@stellar.org> (https://www.stellar.org/)",
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/stellar/gulp-kelp"
+  },
+  "bugs": {
+    "url": "https://github.com/stellar/gulp-kelp/issues"
+  },
+  "homepage": "https://github.com/stellar/gulp-kelp"
+}
