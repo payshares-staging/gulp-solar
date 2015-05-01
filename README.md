@@ -12,24 +12,60 @@ npm install --save-dev gulp-kelp
 ```
 
 ## Example usage
-First, make sure that you have installed and added to your package.json `kelp` and the kelp extensions you want to use.
+This plugin was timeboxed and not fully finished. However, it still works.
+
+JS compile is currently not supported.
 
 ```js
 var gulp = require('gulp');
 var kelp = require('gulp-kelp');
+var async = require('async');
+var sass = require('gulp-sass');
 
-gulp.task('styles', function() {
-  return gulp.src(['app/**/*.scss', 'widgets/**/*.scss'])
-    .pipe(kelp.css({
-      extensions: ['kelp-theme-base', 'kelp-theme-sdf'], // order insensitive
-      tmpDir: '.tmp/kelp' // default, optional
-    }))
-    .pipe(gulp.dest('./dist/css'))
-});
+gulp.task('kelpCss', function(gulpCallback) {
+  var kelpExtensions = ['kelp', 'kelp-theme-sdf'];
+  var packetTmpDir = '.tmp/kelp-packet/';
+  var bundleTmpDir = '.tmp/kelp-bundle/';
+  var distDir = 'dist/css';
 
-gulp.task('js', function() {
-  return gulp.src('your/other/**/*.js', )
-    .pipe(gulp.dest('./dist/js'))
+  async.series([
+    function(callback){
+      kelp.packet(kelpExtensions)
+        .pipe(gulp.dest(packetTmpDir))
+        .on('end', callback)
+    },
+    function(callback){
+      kelp.bundle(kelpExtensions)
+        .pipe(gulp.dest(bundleTmpDir))
+        .on('end', callback)
+    },
+    function(callback){
+      gulp.src(bundleTmpDir + '/**/*.scss')
+        .pipe(sass({
+          includePaths: [packetTmpDir]
+        }))
+        .pipe(gulp.dest(distDir + '/bundle'))
+        .on('end', callback)
+    },
+    function(callback){
+      gulp.src('widgets/**/*.scss')
+        .pipe(sass({
+          includePaths: [packetTmpDir]
+        }))
+        .pipe(gulp.dest(distDir + '/widgets'))
+        .on('end', callback)
+    },
+    function(callback){
+      gulp.src('app/**/*.scss')
+        .pipe(sass({
+          includePaths: [packetTmpDir]
+        }))
+        .pipe(gulp.dest(distDir + '/app'))
+        .on('end', callback)
+    }, function(callback){
+      gulpCallback();
+    }]
+  );
 });
 ```
 
@@ -72,7 +108,8 @@ This plugin implements the kelp compile process laid out in the [kelp build over
 3. Create the kelp-bundle in the tmp folder
 4. Compile the kelp bundle scss files
 5. Compile the input scss files
-6. Rebuild and return as a stream
+6. Clean the tmp files
+7. Rebuild and return as a stream
 
 ### js()
 1. For each specified extension, get the js folder path (if exists)
