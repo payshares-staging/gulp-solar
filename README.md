@@ -2,7 +2,9 @@
 
 > A gulp plugin to build the [kelp framework](https://github.com/stellar/kelp)
 
-This plugin builds the kelp framework css and js. It follows the build process laid out in the [kelp build overview](https://github.com/stellar/kelp/blob/master/docs/kelp-overview.md). It uses the kelp
+This plugin builds the kelp framework css and js. It follows the build process laid out in the [kelp build overview](https://github.com/stellar/kelp/blob/master/docs/kelp-overview.md).
+
+This plugin is currently not finished yet especially. The final product will return just a scss library bundle and a css file.
 
 ## Install
 Install with [npm](https://www.npmjs.com/package/gulp-kelp)
@@ -12,7 +14,7 @@ npm install --save-dev gulp-kelp
 ```
 
 ## Example usage
-This plugin was timeboxed and not fully finished. However, it still works.
+This plugin was timeboxed and not fully finished. It is inefficient (running libraryBundle twice) and incomplete (does not parse the scss), but it still works.
 
 JS compile is currently not supported.
 
@@ -24,43 +26,47 @@ var sass = require('gulp-sass');
 
 gulp.task('kelpCss', function(gulpCallback) {
   var kelpExtensions = ['kelp', 'kelp-theme-sdf'];
-  var packetTmpDir = '.tmp/kelp-packet/';
-  var bundleTmpDir = '.tmp/kelp-bundle/';
+  var libraryBundleTmpDir = '.tmp/kelp-library-bundle/';
+  var cssBundleTmpDir = '.tmp/kelp-css-bundle/';
   var distDir = 'dist/css';
 
   async.series([
     function(callback){
-      kelp.packet(kelpExtensions)
-        .pipe(gulp.dest(packetTmpDir))
+      kelp.libraryBundle(kelpExtensions)
+        .pipe(gulp.dest(libraryBundleTmpDir))
         .on('end', callback)
     },
     function(callback){
-      kelp.bundle(kelpExtensions)
-        .pipe(gulp.dest(bundleTmpDir))
+      kelp.cssBundle(kelpExtensions)
+        .pipe(gulp.dest(cssBundleTmpDir))
         .on('end', callback)
     },
+    // waiting in between here is necessary
     function(callback){
-      gulp.src(bundleTmpDir + '/**/*.scss')
-        .pipe(sass({
-          includePaths: [packetTmpDir]
-        }))
-        .pipe(gulp.dest(distDir + '/bundle'))
+      gulp.src(cssBundleTmpDir + '/**/*.scss')
+        .pipe(sass())
+        .pipe(autoprefixer(config.autoprefixer))
+        .pipe(gulp.dest(distDir))
         .on('end', callback)
     },
     function(callback){
       gulp.src('widgets/**/*.scss')
         .pipe(sass({
-          includePaths: [packetTmpDir]
+          includePaths: [libraryBundleTmpDir]
         }))
-        .pipe(gulp.dest(distDir + '/widgets'))
+        .pipe(concat('widgets.css'))
+        .pipe(autoprefixer(config.autoprefixer))
+        .pipe(gulp.dest(distDir))
         .on('end', callback)
     },
     function(callback){
       gulp.src('app/**/*.scss')
         .pipe(sass({
-          includePaths: [packetTmpDir]
+          includePaths: [libraryBundleTmpDir]
         }))
-        .pipe(gulp.dest(distDir + '/app'))
+        .pipe(concat('app.css'))
+        .pipe(autoprefixer(config.autoprefixer))
+        .pipe(gulp.dest(distDir))
         .on('end', callback)
     }, function(callback){
       gulpCallback();
