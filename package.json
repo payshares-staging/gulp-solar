@@ -1,6 +1,6 @@
 {
   "name": "gulp-kelp",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "A gulp plugin to build the kelp framework",
   "main": "index.js",
   "scripts": {
