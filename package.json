@@ -1,7 +1,7 @@
 {
-  "name": "gulp-kelp",
-  "version": "1.0.2",
-  "description": "A gulp plugin to build the kelp framework",
+  "name": "gulp-solar",
+  "version": "0.1.0",
+  "description": "A gulp plugin to build the solar css framework",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -10,12 +10,12 @@
   "license": "Apache-2.0",
   "repository": {
     "type": "git",
-    "url": "https://github.com/stellar/gulp-kelp"
+    "url": "https://github.com/stellar/gulp-solar"
   },
   "bugs": {
-    "url": "https://github.com/stellar/gulp-kelp/issues"
+    "url": "https://github.com/stellar/gulp-solar/issues"
   },
-  "homepage": "https://github.com/stellar/gulp-kelp",
+  "homepage": "https://github.com/stellar/gulp-solar",
   "dependencies": {
     "gulp-file": "^0.2.0",
     "merge-stream": "^0.1.7"
