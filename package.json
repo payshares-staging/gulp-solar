@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "Iris Li <iris@stellar.org> (https://www.stellar.org/)",
+  "author": "Stellar Development Foundation (https://www.stellar.org/)",
   "license": "Apache-2.0",
   "repository": {
     "type": "git",
