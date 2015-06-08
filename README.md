@@ -1,10 +1,10 @@
-# [gulp](https://github.com/gulpjs/gulp)-[solar](https://github.com/stellar/solar-css)
+# [gulp](https://github.com/gulpjs/gulp)-[solar](https://github.com/stellar/solar)
 
-> A gulp plugin to build the [solar css framework](https://github.com/stellar/solar-css)
+> A gulp plugin to build the [solar css framework](https://github.com/stellar/solar)
 
 This plugin builds the solar framework css and js. It follows the build process laid out in the [solar build overview](https://github.com/stellar/solar/blob/master/docs/solar-overview.md).
 
-This plugin is currently not finished. The goal is that this will return just a scss library bundle and a css file.
+This plugin is currently a hack and is not finished. The goal is that this will return just a scss library bundle and a css file.
 
 ## Install
 Install with [npm](https://www.npmjs.com/package/gulp-solar)
@@ -25,7 +25,7 @@ var async = require('async');
 var sass = require('gulp-sass');
 
 gulp.task('solarCss', function(gulpCallback) {
-  var solarExtensions = ['solar', 'solar-theme-sdf'];
+  var solarExtensions = ['solar', 'solar-stellarorg'];
   var libraryBundleTmpDir = '.tmp/solar-library-bundle/';
   var cssBundleTmpDir = '.tmp/solar-css-bundle/';
   var distDir = 'dist/css';
@@ -100,7 +100,7 @@ Sets the directory in which the temporary css files are stored. This directory i
 ## Solar JS
 ```js
 gulp.src(solar.js({
-    extensions: ['solar-theme-base', 'solar-theme-sdf'],
+    extensions: ['solar-stellarorg'],
   }))
   .pipe(gulp.dest('./dist/js')
 ```
