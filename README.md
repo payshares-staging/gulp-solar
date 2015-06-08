@@ -97,6 +97,7 @@ Default: `.tmp/solar`
 
 Sets the directory in which the temporary css files are stored. This directory is used to store the input scss files since ruby sass
 
+<!--
 ## Solar JS
 ```js
 gulp.src(solar.js({
@@ -107,3 +108,4 @@ gulp.src(solar.js({
 Solar js files do not need any transformations. `solar.js()` simply returns an array of the parent directory of the solar js files.
 
 This may change in the future as solar js may need a build system.
+-->
